@@ -1,0 +1,62 @@
+/* CSS defaults and resets */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-size: 16px;
+}
+
+li {
+  list-style: none;
+}
+
+button {
+  background: unset;
+  border: unset;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:visited {
+  color: initial;
+}
+
+:root,
+::after {
+  --white: #fff;
+  --black: rgb(17, 24, 32);
+  --grey: #ccc;
+  --red: #e53238;
+  --blue: #0064d3;
+  --yellow: #f4ae01;
+  --green: #88b719;
+  --main-background: #f5f5f5;
+}
+
+/* General CSS */
+
+#root {
+  background-color: var(--main-background);
+  color: var(--black);
+  font-family: "Roboto", sans-serif;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.main-wrapper {
+  max-width: 1300px;
+}
