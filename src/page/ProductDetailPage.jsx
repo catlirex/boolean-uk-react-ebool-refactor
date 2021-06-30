@@ -1,6 +1,7 @@
 import { useParams, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
+import useStore from "../store";
 
 const ProductDetail = styled.section`
   display: grid;
@@ -53,11 +54,11 @@ const ProductDetail = styled.section`
   }
 `;
 
-export default function ProductDetailPage({
-  productList,
-  setBasketList,
-  basketList,
-}) {
+export default function ProductDetailPage() {
+  const productList = useStore((state) => state.productList);
+  const basketList = useStore((state) => state.basketList);
+  const setBasketList = useStore((state) => state.setBasketList);
+
   const { id } = useParams();
   let history = useHistory();
   let matchProduct = productList.find((product) => product.id === Number(id));

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import BasketItem from "../components/BasketItem";
+import useStore from "../store";
 
 const BasketSection = styled.section`
   width: 50vw;
@@ -28,27 +29,15 @@ const BasketSection = styled.section`
   }
 `;
 
-export default function BasketPage({ setBasketList, basketList, productList }) {
+export default function BasketPage() {
   const [total, setTotal] = useState(0);
+  const productList = useStore((state) => state.productList);
+  const basketList = useStore((state) => state.basketList);
 
   useEffect(() => {
     setTotal(0);
     basketList.map((item) => setTotal((total) => total + item.subTotal));
   }, [basketList, setTotal]);
-
-  function handleChange(e, id, price) {
-    setBasketList(
-      basketList.map((item) => {
-        if (item.id === id)
-          return {
-            ...item,
-            quantity: e.target.value,
-            subTotal: price * e.target.value,
-          };
-        return item;
-      })
-    );
-  }
 
   return (
     <main>
@@ -64,7 +53,6 @@ export default function BasketPage({ setBasketList, basketList, productList }) {
                 targetDetail={targetDetail}
                 key={targetDetail.id}
                 cartItem={cartItem}
-                handleChange={handleChange}
               />
             );
           })}

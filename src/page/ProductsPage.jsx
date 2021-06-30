@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import ProductCard from "../components/ProductCard";
+import useStore from "../store";
 
 const ProductSection = styled.section`
   margin: 3rem auto;
@@ -13,7 +14,8 @@ const ProductUl = styled.article`
   grid-gap: 2rem;
 `;
 
-export default function ProductPage({ productList }) {
+export default function ProductPage() {
+  const productList = useStore((state) => state.productList);
   const { id } = useParams();
   let history = useHistory();
 
@@ -33,18 +35,18 @@ export default function ProductPage({ productList }) {
       <ProductSection className="products-container main-wrapper">
         <ProductUl className="products-container__list">
           {!id
-            ? productList.map((product) => (
+            ? productList.map((target) => (
                 <ProductCard
-                  key={`${product.id} - ${product.title}`}
-                  product={product}
+                  key={`${target.id} - ${target.title}`}
+                  product={target}
                 />
               ))
             : null}
           {id && filteredItems
-            ? filteredItems.map((product) => (
+            ? filteredItems.map((target) => (
                 <ProductCard
-                  key={`${product.id} - ${product.title}`}
-                  product={product}
+                  key={`${target.id} - ${target.title}`}
+                  product={target}
                 />
               ))
             : null}

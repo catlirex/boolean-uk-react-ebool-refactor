@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import useStore from "../store";
 
 const BasketLi = styled.li`
 margin-top: 1rem;
@@ -19,7 +20,23 @@ const BasketLiContent = styled.article`
   column-gap: 2rem;
 `;
 
-export default function BasketItem({ targetDetail, cartItem, handleChange }) {
+export default function BasketItem({ targetDetail, cartItem }) {
+  const setBasketList = useStore((state) => state.setBasketList);
+  const basketList = useStore((state) => state.basketList);
+
+  function handleChange(e, id, price) {
+    setBasketList(
+      basketList.map((item) => {
+        if (item.id === id)
+          return {
+            ...item,
+            quantity: e.target.value,
+            subTotal: price * e.target.value,
+          };
+        return item;
+      })
+    );
+  }
   return (
     <BasketLi>
       <BasketLiContent className="basket-container__item">

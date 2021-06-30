@@ -1,16 +1,24 @@
 import Header from "./components/Header";
 import { Route, Redirect, Switch } from "react-router-dom";
 import ProductPage from "./page/ProductsPage";
-import useFetch from "./hook/useFetch";
 import CategoriesPage from "./page/CategoriesPage";
 import ProductDetailPage from "./page/ProductDetailPage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BasketPage from "./page/BasketPage";
 import SearchPage from "./page/SearchPage";
+import useStore from "./store";
 
 function App() {
-  const [productList] = useFetch("http://localhost:4000/products");
-  const [basketList, setBasketList] = useState([]);
+  const setProductList = useStore((state) => state.setProductList);
+
+  useEffect(() => {
+    fetch("http://localhost:4000/products")
+      .then((resp) => resp.json())
+      .then((allData) => {
+        setProductList(allData);
+      });
+  }, []);
+
   return (
     <>
       <Header />
@@ -21,30 +29,22 @@ function App() {
           </Route>
 
           <Route path="/products" exact>
-            <ProductPage productList={productList} />
+            <ProductPage />
           </Route>
           <Route path="/categories" exact>
             <CategoriesPage />
           </Route>
 
           <Route path="/basket" exact>
-            <BasketPage
-              basketList={basketList}
-              productList={productList}
-              setBasketList={setBasketList}
-            />
+            <BasketPage />
           </Route>
 
           <Route path="/products/:id" exact>
-            <ProductDetailPage
-              productList={productList}
-              setBasketList={setBasketList}
-              basketList={basketList}
-            />
+            <ProductDetailPage />
           </Route>
 
           <Route path="/categories/:id" exact>
-            <ProductPage productList={productList} />
+            <ProductPage />
           </Route>
 
           <Route path="/search/:search">
